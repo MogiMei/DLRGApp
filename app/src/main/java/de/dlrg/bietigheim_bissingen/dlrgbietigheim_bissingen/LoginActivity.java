@@ -48,7 +48,9 @@ public class LoginActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Toast.makeText(this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                if (user != null) {
+                    Toast.makeText(this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                }
             } else {
 
             }
