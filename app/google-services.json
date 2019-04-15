@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "143423429036",
+    "firebase_url": "https://dlrgbibi.firebaseio.com",
+    "project_id": "dlrgbibi",
+    "storage_bucket": "dlrgbibi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143423429036:android:59490723bca1107d",
+        "android_client_info": {
+          "package_name": "de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143423429036-k8vgc8fmu4crt93h5npf3qjjoqauoa00.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNJLrBYlAuI3fdTN-zLvgXDfjA2kGRYI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143423429036-k8vgc8fmu4crt93h5npf3qjjoqauoa00.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
