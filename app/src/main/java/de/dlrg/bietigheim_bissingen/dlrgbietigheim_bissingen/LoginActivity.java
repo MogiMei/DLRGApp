@@ -1,12 +1,11 @@
 package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -17,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -31,11 +29,14 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
-        startActivityForResult(AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build(), RC_SIGN_IN);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null) {
+            List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
+            startActivityForResult(AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(providers)
+                    .build(), RC_SIGN_IN);
+        }
     }
 
     @Override

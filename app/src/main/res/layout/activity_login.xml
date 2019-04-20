@@ -26,9 +26,9 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="0, 1"
-        android:layout_marginTop="10dp">
+        android:layout_height="284dp"
+        android:layout_marginTop="10dp"
+        android:stretchColumns="0, 1">
 
         <TableRow
             android:layout_width="match_parent"
@@ -38,23 +38,23 @@
                 android:id="@+id/freibadText"
                 android:layout_width="160dp"
                 android:layout_height="30dp"
+                android:text="@string/freibad"
                 android:textAlignment="center"
-                android:textSize="25sp"
-                android:textFontWeight="450"
                 android:textColor="#ffffff"
-                android:text="@string/freibad" />
+                android:textFontWeight="450"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/trainingText"
                 android:layout_width="160dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
-                android:textAlignment="center"
-                android:textSize="25sp"
-                android:textFontWeight="450"
-                android:textColor="#ffffff"
+                android:layout_marginLeft="10dp"
                 android:text="@string/training"
-                android:layout_marginLeft="10dp" />
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textFontWeight="450"
+                android:textSize="25sp" />
         </TableRow>
 
         <TableRow
@@ -68,17 +68,17 @@
                 android:layout_height="100dp"
                 android:background="@color/pool"
                 android:padding="2dp"
-                tools:srcCompat="@drawable/ic_swimming_pool" />
+                app:srcCompat="@drawable/ic_swimming_pool" />
 
             <ImageButton
                 android:id="@+id/trainingButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:background="@color/pool"
                 android:padding="2dp"
-                tools:srcCompat="@drawable/ic_swim_race"
-                android:layout_marginLeft="10dp" />
+                app:srcCompat="@drawable/ic_swim_race" />
         </TableRow>
 
         <TableRow
@@ -90,26 +90,26 @@
                 android:id="@+id/terminText"
                 android:layout_width="160dp"
                 android:layout_height="30dp"
+                android:text="@string/termin"
                 android:textAlignment="center"
-                android:textSize="25sp"
-                android:textFontWeight="450"
                 android:textColor="#ffffff"
-                android:text="@string/termin" />
+                android:textFontWeight="450"
+                android:textSize="25sp" />
 
 
         </TableRow>
 
         <TableRow
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
             <ImageButton
                 android:id="@+id/terminButton"
                 android:layout_width="160dp"
                 android:layout_height="100dp"
                 android:background="@color/pool"
-                tools:srcCompat="@drawable/ic_iconmonstr_calendar_4" />
+                app:srcCompat="@drawable/ic_iconmonstr_calendar_4" />
 
         </TableRow>
 

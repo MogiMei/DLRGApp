@@ -11,5 +11,5 @@
     <string name="error_field_required">Dieses Feld muss ausgefüllt sein!</string>
     <string name="freibad">Freibad</string>
     <string name="training">Wettkampf</string>
-    <string name="termin">Termin</string>
+    <string name="termin">Termine</string>
 </resources>

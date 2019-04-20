@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen"
         minSdkVersion 16
         targetSdkVersion 28
