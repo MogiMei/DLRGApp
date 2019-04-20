@@ -96,6 +96,18 @@
                 android:textFontWeight="450"
                 android:textSize="25sp" />
 
+            <TextView
+                android:id="@+id/kontaktText"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/kontakt"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textFontWeight="450"
+                android:textSize="25sp" />
+
 
         </TableRow>
 
@@ -111,6 +123,16 @@
                 android:background="@color/pool"
                 app:srcCompat="@drawable/ic_iconmonstr_calendar_4" />
 
+            <ImageButton
+                android:id="@+id/kontaktButton"
+                android:layout_width="160dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/pool"
+                android:padding="2dp"
+                app:srcCompat="@drawable/ic_email" />
+
         </TableRow>
 
         <TableRow
@@ -121,6 +143,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="right|bottom"
+        android:orientation="vertical" >
+
+
+        <ImageButton
+            android:id="@+id/logoutButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:srcCompat="@drawable/ic_logout" />
+    </LinearLayout>
 
 
 </LinearLayout>

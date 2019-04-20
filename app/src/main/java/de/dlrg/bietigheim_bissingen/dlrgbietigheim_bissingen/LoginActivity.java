@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -22,12 +24,25 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
+    public static LoginActivity MainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+
+        MainActivity = this;
+
+        ImageButton ib = (ImageButton) findViewById(R.id.logoutButton);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.MainActivity.signOut();
+                LoginActivity.MainActivity.signIn();
+
+            }
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) {
@@ -66,6 +81,14 @@ public class LoginActivity extends AppCompatActivity {
                         // ...
                     }
                 });
+    }
+
+    public void signIn() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
+        startActivityForResult(AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build(), RC_SIGN_IN);
     }
 
     public void delete() {
