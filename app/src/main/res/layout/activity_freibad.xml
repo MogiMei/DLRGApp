@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,18 +26,184 @@
         android:text="@string/freibad" />
 
 
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
+
+    <TextView
+        android:id="@+id/wachgängerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="10dp"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:textColor="#FFF"
+        android:text="@string/wachgangerinfreibad"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/wachgängerValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wachgängerText"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:text="0"
+        android:textColor="#FFF"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/besucherText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wachgängerValue"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:text="@string/besucherinfreibad"
+        android:textColor="#FFF"
+        android:textSize="20dp" />
+
+    <de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen.VisitorIndicator
+        android:id="@+id/visitorIndicator"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/wachgängerValue"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignRight="@+id/textView"
+        android:background="@drawable/gradient_visitor"
+        custom:barColor="#fff"
+        custom:percentValue="40" />
+
+    <TextView
+        android:id="@+id/besucherZeit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/visitorIndicator"
+        android:layout_alignEnd="@+id/visitorIndicator"
+        android:layout_alignRight="@+id/visitorIndicator"
+        android:text="vor 1 Minute"
+        android:textColor="#FFF"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/benutzerFreibad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/besucherZeit"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:text="@string/benutzerimfreibad"
+        android:textColor="#FFF"
+        android:textSize="20dp" />
+
+
+    <CheckBox
+        android:id="@+id/checkBoxFreibad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/benutzerFreibad"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignRight="@+id/textView"
+        app:buttonTint="#FFF"/>
+
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:gravity="right|bottom"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:stretchColumns="0, 1"
+        android:layout_below="@+id/benutzerFreibad"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignLeft="@+id/textView">
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            app:srcCompat="@android:drawable/ic_menu_revert" />
-    </LinearLayout>
-</LinearLayout>
+            <ImageButton
+                android:id="@+id/wachdienst"
+                android:layout_width="160dp"
+                android:layout_height="100dp"
+                android:background="@color/dlrgYellow"
+                android:padding="2dp"
+                custom:srcCompat="@drawable/ic_binoculars" />
+
+            <ImageButton
+                android:id="@+id/putzplan"
+                android:layout_width="160dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/dlrgYellow"
+                android:padding="5dp"
+                custom:srcCompat="@drawable/ic_cleaning" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dienstplanText"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:text="@string/wachdienst"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textFontWeight="450"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/putzplanText"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/putzplan"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textFontWeight="450"
+                android:textSize="25sp" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <ImageButton
+                android:id="@+id/terminButton"
+                android:layout_width="160dp"
+                android:layout_height="100dp"
+                android:background="@color/dlrgYellow"
+                app:srcCompat="@drawable/ic_plus" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/terminText"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="@string/nachfordern"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textFontWeight="450"
+                android:textSize="25sp" />
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

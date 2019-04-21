@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -60,6 +61,13 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        FirebaseMessaging.getInstance().subscribeToTopic("Freibad")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) {
