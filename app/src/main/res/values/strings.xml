@@ -13,4 +13,6 @@
     <string name="training">Wettkampf</string>
     <string name="termin">Termine</string>
     <string name="kontakt">Kontakt</string>
+    <string name="fcm_message">DLRG Bi-Bi</string>
+    <string name="logout">Logout</string>
 </resources>
