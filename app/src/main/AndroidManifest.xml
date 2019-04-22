@@ -29,6 +29,9 @@
         <activity
             android:name=".FreibadActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity
+            android:name=".Wachplan"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
 
         <service
             android:name=".MyFirebaseMessagingService"
@@ -38,5 +41,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>

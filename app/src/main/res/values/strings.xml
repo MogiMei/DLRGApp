@@ -22,5 +22,6 @@
     <string name="benutzerimfreibad">Bist du gerade im Freibad?</string>
     <string name="nachfordern">Wachgänger nachfordern</string>
     <string name="freibadZeit">das letzte Mal im Freibad vor unbestimmter Zeit</string>
+    <string name="pflichttermine">Pflichttermine:</string>
 
 </resources>

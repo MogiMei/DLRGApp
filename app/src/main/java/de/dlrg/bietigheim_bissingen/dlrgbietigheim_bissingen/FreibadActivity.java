@@ -1,6 +1,7 @@
 package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -68,6 +69,15 @@ public class FreibadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openMainMenu();
+            }
+        });
+
+        ImageButton wachplan = (ImageButton) findViewById(R.id.wachdienst);
+        wachplan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(freibadActivity, Wachplan.class);
+                startActivity(intent);
             }
         });
 

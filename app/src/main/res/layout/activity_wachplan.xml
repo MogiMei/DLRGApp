@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dlrgRed"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/wachplanText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dlrgYellow"
+        android:textSize="25dp"
+        android:textFontWeight="560"
+        android:textAlignment="center"
+        android:text="@string/wachdienst" />
+
+    <TextView
+        android:id="@+id/pflichttermineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/wachplanText"
+        android:layout_alignStart="@+id/wachplanText"
+        android:layout_below="@+id/wachplanText"
+        android:textColor="@color/dlrgYellow"
+        android:textSize="20dp"
+        android:text="@string/pflichttermine" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pflichttermineListe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignStart="@+id/wachplanText"
+        android:layout_alignLeft="@+id/wachplanText"
+        android:layout_below="@+id/pflichttermineText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp" />
+
+
+
+
+</RelativeLayout>
