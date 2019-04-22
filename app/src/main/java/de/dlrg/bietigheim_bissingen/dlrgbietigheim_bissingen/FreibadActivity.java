@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -48,11 +49,14 @@ public class FreibadActivity extends AppCompatActivity {
     private TextView freibadZeit;
 
     private Handler handler;
+    public static FreibadActivity freibadActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_freibad);
+
+        freibadActivity = this;
 
         db = FirebaseFirestore.getInstance();
         nutzer = db.collection("Nutzer");
@@ -79,9 +83,10 @@ public class FreibadActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(!cbManual) {
+                    freibadZeit.setText((DateUtils.getRelativeTimeSpanString(Timestamp.now().getSeconds() * 1000)));
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     Map<String, Object> tokenMap = new HashMap<>();
-                    if (isChecked) {
+                    if (cb.isChecked()) {
                         tokenMap.put("freibad", true);
                         tokenMap.put("freibadInZeit", Timestamp.now());
                         nutzer.document(user.getUid())
@@ -89,16 +94,15 @@ public class FreibadActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-
+                                        Log.d(TAG, "Freibad rein: positive");
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-
+                                        Log.d(TAG, "Freibad rein: negative");
                                     }
                                 });
-                        freibadZeit.setText((DateUtils.getRelativeTimeSpanString(Timestamp.now().getSeconds() * 1000)));
                     } else {
                         tokenMap.put("freibad", false);
                         tokenMap.put("freibadOutZeit", Timestamp.now());
@@ -107,16 +111,15 @@ public class FreibadActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-
+                                        Log.d(TAG, "Freibad raus: positive");
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-
+                                        Log.d(TAG, "Freibad raus: negative");
                                     }
                                 });
-                        freibadZeit.setText((DateUtils.getRelativeTimeSpanString(Timestamp.now().getSeconds() * 1000)));
                     }
                 }
                 cbManual = false;
@@ -174,6 +177,7 @@ public class FreibadActivity extends AppCompatActivity {
                     if (x) {
                         cbManual = true;
                         cb.setChecked(true);
+                        cbManual = false;
                         Timestamp time = (Timestamp) documentSnapshot.get("freibadInZeit");
                         freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
                     } else {
@@ -190,7 +194,7 @@ public class FreibadActivity extends AppCompatActivity {
         v.setPercentValue(Integer.valueOf(String.valueOf(data.get("Besucheranteil"))));
         TextView besucherZeit = findViewById(R.id.besucherZeit);
         Timestamp time = (Timestamp) data.get("Besucherzeit");
-        besucherZeit.setText(DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_NUMERIC_DATE));
+        besucherZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_NUMERIC_DATE) + " von " + data.get("Besuchermelder")));
     }
 
     @Override
@@ -215,6 +219,52 @@ public class FreibadActivity extends AppCompatActivity {
     public void openMainMenu() {
         handler.removeCallbacksAndMessages(null);
         finish();
+    }
+
+    public void besucherUpdateDialog(final float x, final float y) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        besucherUpdaten(x, y);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Bist du sicher, dass du den Besucheranteil updaten möchtest?").setPositiveButton("Ja", dialogClickListener)
+                .setNegativeButton("Abbrechen", dialogClickListener).show();
+
+    }
+
+    public void besucherUpdaten(float x, float y) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        VisitorIndicator visitorIndicator = findViewById(R.id.visitorIndicator);
+        Map<String, Object> update = new HashMap<>();
+
+        update.put("Besucherzeit", Timestamp.now());
+        update.put("Besucheranteil", Math.round(x / visitorIndicator.getViewWidth() * 100));
+        update.put("Besuchermelder", user.getDisplayName());
+        db.collection("Freibad").document("main").update(update).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("LOGINACTIVITY", "Besucher geupdatet!");
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("LOGINACTIVITY", "Error writing visitor", e);
+                    }
+                });
+        visitorIndicator.setPercentValue(Math.round(x / visitorIndicator.getViewWidth() * 100));
+
+        updateData(false);
     }
 
     public void wachgangerAnfordern() {

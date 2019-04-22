@@ -49,8 +49,35 @@ public class VisitorIndicator extends View {
         canvas.drawRect(rect, paint);
     }
 
+    public int getViewWidth() {
+        return viewWidth;
+    }
+
     public void setPercentValue(int value) {
         percentValue = value;
         invalidate();
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                FreibadActivity.freibadActivity.besucherUpdateDialog(event.getX(), event.getY());
+                return true;
+
+            case MotionEvent.ACTION_UP:
+                performClick();
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean performClick() {
+        super.performClick();
+        return true;
+    }
+
 }
