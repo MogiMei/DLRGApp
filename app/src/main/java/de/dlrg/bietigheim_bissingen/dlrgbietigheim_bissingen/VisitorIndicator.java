@@ -43,9 +43,14 @@ public class VisitorIndicator extends View {
         paint.setAntiAlias(true);
 
         paint.setColor(barColor);
-        rect.left = viewWidth - viewWidth / 100 * percentValue;
-        rect.right = viewWidth - viewWidth / 100 * percentValue + 10;
+        rect.left = viewWidth / 100 * percentValue;
+        rect.right = viewWidth / 100 * percentValue + 10;
         rect.bottom = viewHeight;
         canvas.drawRect(rect, paint);
+    }
+
+    public void setPercentValue(int value) {
+        percentValue = value;
+        invalidate();
     }
 }

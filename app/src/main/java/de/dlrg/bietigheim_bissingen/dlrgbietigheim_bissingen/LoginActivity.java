@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
         Map<String, Object> tokenMap = new HashMap<>();
         tokenMap.put("device", token);
         db.collection("Nutzer").document(user.getUid())
-                .set(tokenMap)
+                .update(tokenMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
