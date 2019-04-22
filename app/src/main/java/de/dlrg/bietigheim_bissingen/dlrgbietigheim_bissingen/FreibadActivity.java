@@ -2,6 +2,7 @@ package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,11 @@ public class FreibadActivity extends AppCompatActivity {
     private CollectionReference nutzer;
     private TextView wachgangerValue;
     private CheckBox cb;
+    private Boolean cbManual = false;
+
+    private TextView freibadZeit;
+
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class FreibadActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         nutzer = db.collection("Nutzer");
         wachgangerValue = findViewById(R.id.wachgangerValue);
+        freibadZeit = findViewById(R.id.freibadZeit);
 
         ImageButton ib = (ImageButton) findViewById(R.id.backButton);
         ib.setOnClickListener(new View.OnClickListener() {
@@ -71,50 +78,67 @@ public class FreibadActivity extends AppCompatActivity {
         cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Map<String, Object> tokenMap = new HashMap<>();
-                if(isChecked) {
-                    tokenMap.put("freibad", true);
-                    tokenMap.put("freibadInZeit", Timestamp.now());
-                    nutzer.document(user.getUid())
-                            .update(tokenMap)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
+                if(!cbManual) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    Map<String, Object> tokenMap = new HashMap<>();
+                    if (isChecked) {
+                        tokenMap.put("freibad", true);
+                        tokenMap.put("freibadInZeit", Timestamp.now());
+                        nutzer.document(user.getUid())
+                                .update(tokenMap)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
 
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
 
-                                }
-                            });
-                } else {
-                    tokenMap.put("freibad", false);
-                    tokenMap.put("freibadOutZeit", Timestamp.now());
-                    nutzer.document(user.getUid())
-                            .update(tokenMap)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
+                                    }
+                                });
+                        freibadZeit.setText((DateUtils.getRelativeTimeSpanString(Timestamp.now().getSeconds() * 1000)));
+                    } else {
+                        tokenMap.put("freibad", false);
+                        tokenMap.put("freibadOutZeit", Timestamp.now());
+                        nutzer.document(user.getUid())
+                                .update(tokenMap)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
 
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
 
-                                }
-                            });
+                                    }
+                                });
+                        freibadZeit.setText((DateUtils.getRelativeTimeSpanString(Timestamp.now().getSeconds() * 1000)));
+                    }
                 }
-                updateData();
+                cbManual = false;
+                updateData(false);
             }
         });
-        updateData();
+        handler = new Handler();
+        handler.post(runnableCode);
+
+        updateData(true);
     }
 
-    public void updateData() {
+    private Runnable runnableCode = new Runnable() {
+        @Override
+        public void run() {
+            updateData(true);
+            Log.d(TAG, "UpdatedData");
+            handler.postDelayed(runnableCode, 60000);
+        }
+    };
+
+    public void updateData(Boolean first) {
         DocumentReference docRef = db.collection("Freibad").document("main");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -140,16 +164,25 @@ public class FreibadActivity extends AppCompatActivity {
                 wachgangerValue.setText(String.valueOf(queryDocumentSnapshots.size()));
             }
         });
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        nutzer.document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Boolean x = Boolean.parseBoolean(String.valueOf(documentSnapshot.get("freibad")));
-                if(x) {
-                    cb.setChecked(true);
+        if(first) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            nutzer.document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Boolean x = Boolean.parseBoolean(String.valueOf(documentSnapshot.get("freibad")));
+
+                    if (x) {
+                        cbManual = true;
+                        cb.setChecked(true);
+                        Timestamp time = (Timestamp) documentSnapshot.get("freibadInZeit");
+                        freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                    } else {
+                        Timestamp time = (Timestamp) documentSnapshot.get("freibadOutZeit");
+                        freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void updateValues(Map<String, Object> data) {
@@ -160,7 +193,27 @@ public class FreibadActivity extends AppCompatActivity {
         besucherZeit.setText(DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_NUMERIC_DATE));
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handler = new Handler();
+        handler.post(runnableCode);
+    }
+
     public void openMainMenu() {
+        handler.removeCallbacksAndMessages(null);
         finish();
     }
 
@@ -174,7 +227,6 @@ public class FreibadActivity extends AppCompatActivity {
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
                         break;
                 }
             }
