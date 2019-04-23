@@ -1,6 +1,8 @@
 package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +45,8 @@ public class PflichtterminAdapter extends RecyclerView.Adapter<PflichtterminAdap
 
     @Override
     public void onBindViewHolder(@NonNull PflichtterminAdapter.PflichtterminHolder holder, int position) {
-        Termine termine = mDataset.get(position);
+        final Termine termine = mDataset.get(position);
+
 
         TextView textView = holder.textView;
         ImageButton imageButton = holder.imageButton;
@@ -51,6 +54,23 @@ public class PflichtterminAdapter extends RecyclerView.Adapter<PflichtterminAdap
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                Wachplan.wachplan.deletePflichttermin(termine.getDatum());
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Wachplan.wachplan);
+                builder.setMessage("Bist du sicher, dass du diesen Pflichttermin löschen möchtest?").setPositiveButton("Ja", dialogClickListener)
+                        .setNegativeButton("Abbrechen", dialogClickListener).show();
 
             }
         });

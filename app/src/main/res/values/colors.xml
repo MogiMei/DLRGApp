@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="dlrgRed">#DD0614</color>
+    <color name="dlrgRedDark">#9b040e</color>
     <color name="dlrgYellow">#F7E602</color>
     <color name="pool">#00A2EF</color>
 </resources>

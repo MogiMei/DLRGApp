@@ -23,5 +23,5 @@
     <string name="nachfordern">Wachgänger nachfordern</string>
     <string name="freibadZeit">das letzte Mal im Freibad vor unbestimmter Zeit</string>
     <string name="pflichttermine">Pflichttermine:</string>
-
+    <string name="termin_button">Pflichttermin hinzufügen</string>
 </resources>

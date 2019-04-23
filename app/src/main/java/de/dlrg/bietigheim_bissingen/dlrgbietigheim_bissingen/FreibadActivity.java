@@ -189,10 +189,16 @@ public class FreibadActivity extends AppCompatActivity {
                         cb.setChecked(true);
                         cbManual = false;
                         Timestamp time = (Timestamp) documentSnapshot.get("freibadInZeit");
-                        freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                        if (time != null) {
+                            freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                        }
                     } else {
                         Timestamp time = (Timestamp) documentSnapshot.get("freibadOutZeit");
-                        freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                        if(time != null) {
+                            freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                        } else {
+                            freibadZeit.setText("Noch nicht im Freibad gewesen!");
+                        }
                     }
                 }
             });
