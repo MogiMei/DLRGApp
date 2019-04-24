@@ -144,22 +144,24 @@ public class LoginActivity extends AppCompatActivity {
 
     public void sendTokenToServer(String token) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> tokenMap = new HashMap<>();
-        tokenMap.put("device", token);
-        db.collection("Nutzer").document(user.getUid())
-                .update(tokenMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("LOGINACTIVITY", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("LOGINACTIVITY", "Error writing document", e);
-                    }
-                });
+        if (user != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            Map<String, Object> tokenMap = new HashMap<>();
+            tokenMap.put("device", token);
+            db.collection("Nutzer").document(user.getUid())
+                    .update(tokenMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("LOGINACTIVITY", "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("LOGINACTIVITY", "Error writing document", e);
+                        }
+                    });
+        }
     }
 }

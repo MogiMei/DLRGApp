@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/dlrgRed"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/wachplanText"
+        android:id="@+id/wachstundenText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/dlrgYellow"
         android:textSize="25dp"
         android:textFontWeight="560"
         android:textAlignment="center"
-        android:text="@string/wachdienst" />
+        android:text="@string/wachstunden" />
 
     <TextView
-        android:id="@+id/pflichttermineText"
-        android:layout_width="wrap_content"
+        android:id="@+id/wachstundenValue"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/wachplanText"
-        android:layout_alignStart="@+id/wachplanText"
-        android:layout_below="@+id/wachplanText"
+        android:layout_below="@id/wachstundenText"
         android:textColor="@color/dlrgYellow"
         android:textSize="20dp"
-        android:text="@string/pflichttermine" />
+        android:textFontWeight="560"
+        android:text="@string/wachstundenValue" />
+
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/pflichttermineListe"
+        android:id="@+id/wachstundenListe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/pflichttermineText"
-        android:layout_alignStart="@+id/wachplanText"
-        android:layout_alignLeft="@+id/wachplanText"
-        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/wachstundenValue"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
         android:layout_marginBottom="85dp"/>
 
     <LinearLayout
@@ -50,7 +44,7 @@
         android:layout_alignParentBottom="true">
 
         <Button
-            android:id="@+id/termin_button"
+            android:id="@+id/stunden_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -60,7 +54,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:background="@color/dlrgYellow"
-            android:text="@string/termin_button"
+            android:text="@string/stunden_button"
             android:textColor="#000"
             android:textSize="18dp"
             />

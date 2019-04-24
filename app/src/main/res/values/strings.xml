@@ -24,4 +24,7 @@
     <string name="freibadZeit">das letzte Mal im Freibad vor unbestimmter Zeit</string>
     <string name="pflichttermine">Pflichttermine:</string>
     <string name="termin_button">Pflichttermin hinzufügen</string>
+    <string name="wachstunden">Wachstunden</string>
+    <string name="stunden_button">WACHSTUNDEN HINZUFÜGEN</string>
+    <string name="wachstundenValue">Insgesamt 0 Stunden</string>
 </resources>

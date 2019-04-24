@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class Wachplan extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class Wachplan extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -72,8 +72,6 @@ public class Wachplan extends AppCompatActivity implements DatePickerDialog.OnDa
                                 Map<String, Object> map = new HashMap<>();
                                 final Date anfang = new Date(year-1900, monthOfYear, dayOfMonth, 9, 45);
                                 final Date ende = new Date(year-1900, monthOfYear, dayOfMonth, 18, 0);
-                                Log.d(TAG, anfang.toString());
-                                Log.d(TAG, ende.toString());
                                 map.put("anfangsZeit", new Timestamp(anfang));
                                 map.put("endZeit", new Timestamp(ende));
 
@@ -141,7 +139,7 @@ public class Wachplan extends AppCompatActivity implements DatePickerDialog.OnDa
         mAdapter = new PflichtterminAdapter(list);
         recyclerView.setAdapter(mAdapter);
 
-        layoutManager = new LinearLayoutManager(wachplan);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
     }
 
@@ -179,10 +177,5 @@ public class Wachplan extends AppCompatActivity implements DatePickerDialog.OnDa
             }
         }
         return null;
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
     }
 }

@@ -201,6 +201,16 @@
                 android:background="@color/dlrgYellow"
                 app:srcCompat="@drawable/ic_plus" />
 
+            <ImageButton
+                android:id="@+id/wachstundenButton"
+                android:layout_width="160dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/dlrgYellow"
+                android:padding="5dp"
+                custom:srcCompat="@drawable/ic_time" />
+
         </TableRow>
 
         <TableRow
@@ -213,6 +223,18 @@
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:text="@string/nachfordern"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textFontWeight="450"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/wachstundenText"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/wachstunden"
                 android:textAlignment="center"
                 android:textColor="#ffffff"
                 android:textFontWeight="450"

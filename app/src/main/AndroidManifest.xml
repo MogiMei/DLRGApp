@@ -32,6 +32,7 @@
         <activity
             android:name=".Wachplan"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name=".Wachstunden" />
 
         <service
             android:name=".MyFirebaseMessagingService"

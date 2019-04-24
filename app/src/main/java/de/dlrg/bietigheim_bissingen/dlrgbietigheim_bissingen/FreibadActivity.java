@@ -1,7 +1,11 @@
 package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -81,6 +85,15 @@ public class FreibadActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton wachstunde = (ImageButton) findViewById(R.id.wachstundenButton);
+        wachstunde.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(freibadActivity, Wachstunden.class);
+                startActivity(intent);
+            }
+        });
+
         ImageButton nachfordernButton = findViewById(R.id.nachfordernButton);
         nachfordernButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +149,9 @@ public class FreibadActivity extends AppCompatActivity {
                 updateData(false);
             }
         });
+
+        setImageButtonEnabled(this, false, (ImageButton) findViewById(R.id.putzplan), R.drawable.ic_cleaning);
+
         handler = new Handler();
         handler.post(runnableCode);
 
@@ -319,5 +335,22 @@ public class FreibadActivity extends AppCompatActivity {
             }
         });
         queue.add(stringRequest);
+    }
+
+    public static void setImageButtonEnabled(Context ctxt, boolean enabled, ImageButton item,
+                                             int iconResId) {
+        item.setEnabled(enabled);
+        Drawable originalIcon = ctxt.getResources().getDrawable(iconResId);
+        Drawable icon = enabled ? originalIcon : convertDrawableToGrayScale(originalIcon);
+        item.setImageDrawable(icon);
+    }
+
+    public static Drawable convertDrawableToGrayScale(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
+        Drawable res = drawable.mutate();
+        res.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        return res;
     }
 }
