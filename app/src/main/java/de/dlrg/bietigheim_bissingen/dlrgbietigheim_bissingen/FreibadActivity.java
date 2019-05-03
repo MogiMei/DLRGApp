@@ -195,29 +195,31 @@ public class FreibadActivity extends AppCompatActivity {
         });
         if(first) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            nutzer.document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    Boolean x = Boolean.parseBoolean(String.valueOf(documentSnapshot.get("freibad")));
+            if (user != null) {
+                nutzer.document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Boolean x = Boolean.parseBoolean(String.valueOf(documentSnapshot.get("freibad")));
 
-                    if (x) {
-                        cbManual = true;
-                        cb.setChecked(true);
-                        cbManual = false;
-                        Timestamp time = (Timestamp) documentSnapshot.get("freibadInZeit");
-                        if (time != null) {
-                            freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
-                        }
-                    } else {
-                        Timestamp time = (Timestamp) documentSnapshot.get("freibadOutZeit");
-                        if(time != null) {
-                            freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                        if (x) {
+                            cbManual = true;
+                            cb.setChecked(true);
+                            cbManual = false;
+                            Timestamp time = (Timestamp) documentSnapshot.get("freibadInZeit");
+                            if (time != null) {
+                                freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                            }
                         } else {
-                            freibadZeit.setText("Noch nicht im Freibad gewesen!");
+                            Timestamp time = (Timestamp) documentSnapshot.get("freibadOutZeit");
+                            if(time != null) {
+                                freibadZeit.setText((DateUtils.getRelativeTimeSpanString(time.getSeconds() * 1000)));
+                            } else {
+                                freibadZeit.setText("Noch nicht im Freibad gewesen!");
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
@@ -337,8 +339,7 @@ public class FreibadActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-    public static void setImageButtonEnabled(Context ctxt, boolean enabled, ImageButton item,
-                                             int iconResId) {
+    public static void setImageButtonEnabled(Context ctxt, boolean enabled, ImageButton item, int iconResId) {
         item.setEnabled(enabled);
         Drawable originalIcon = ctxt.getResources().getDrawable(iconResId);
         Drawable icon = enabled ? originalIcon : convertDrawableToGrayScale(originalIcon);

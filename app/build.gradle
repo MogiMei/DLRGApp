@@ -7,6 +7,7 @@ android {
         applicationId "de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen"
         minSdkVersion 16
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,6 +35,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'testfairy:testfairy-android-sdk:1.+@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'

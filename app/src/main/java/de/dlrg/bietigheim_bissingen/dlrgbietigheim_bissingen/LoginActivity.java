@@ -1,10 +1,11 @@
 package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.testfairy.TestFairy;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        TestFairy.begin(this, "SDK-DnGyh1lJ");
 
         setContentView(R.layout.activity_login);
 
@@ -93,6 +97,8 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private final String TAG = "LoginactivityTAG";
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -107,7 +113,47 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
                 }
             } else {
+                if(resultCode == 0) {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
+                                    startActivityForResult(AuthUI.getInstance()
+                                            .createSignInIntentBuilder()
+                                            .setAvailableProviders(providers)
+                                            .build(), RC_SIGN_IN);
+                                    break;
+                            }
+                        }
+                    };
+                    DialogInterface.OnClickListener dialogClickListenerNo = new DialogInterface.OnClickListener() {
 
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(which == DialogInterface.BUTTON_NEGATIVE) {
+                                moveTaskToBack(true);
+                                android.os.Process.killProcess(android.os.Process.myPid());
+                                System.exit(1);
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
+                            startActivityForResult(AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setAvailableProviders(providers)
+                                    .build(), RC_SIGN_IN);
+                        }
+                    });
+                    builder.setMessage("Bitte melde dich an, um die App nutzen zu können!").setPositiveButton("Ok", dialogClickListener)
+                            .setNegativeButton("Verlassen", dialogClickListenerNo).show();
+                }
             }
         }
     }
