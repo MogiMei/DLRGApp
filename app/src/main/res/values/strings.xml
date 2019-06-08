@@ -33,4 +33,26 @@
     <string name="fernglas">Fernglas</string>
     <string name="wachstundenMoney">Aktuelle Vergütung: 0€</string>
     <string name="timeNeeded">Ich bin in ... Minuten da!</string>
+    <string name="settings">Einstellungen</string>
+    <string name="name">Name:</string>
+    <string name="example_name">Max Mustermann</string>
+    <string name="abzeichen">Abzeichen:</string>
+    <string name="sanitätsaubildung">Sanitätsausbildung:</string>
+    <string-array name="abzeichen_array">
+        <item>DRSA Bronze</item>
+        <item>DRSA Silber</item>
+        <item>DRSA Gold</item>
+    </string-array>
+    <string-array name="sanitätsausbildung_array">
+        <item>Erste Hilfe</item>
+        <item>San A</item>
+        <item>San B</item>
+        <item>San C</item>
+        <item>Rettungshelfer/-in</item>
+        <item>Rettungssanitäter/-in</item>
+        <item>Rettungsassistent/-in</item>
+        <item>Notfallsanitäter/-in</item>
+        <item>Krankenschwester/-pfleger</item>
+        <item>Arzt/Ärztin</item>
+    </string-array>
 </resources>

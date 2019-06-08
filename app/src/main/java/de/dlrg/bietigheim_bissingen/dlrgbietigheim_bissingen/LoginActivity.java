@@ -66,6 +66,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         FirebaseMessaging.getInstance().subscribeToTopic("Freibad")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

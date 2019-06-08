@@ -1,171 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/dlrgRed"
-    tools:context=".LoginActivity">
-
-
-    <TextView
-        android:id="@+id/textView"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/dlrgRed">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/dlrgYellow"
-        android:textSize="25dp"
-        android:textFontWeight="560"
-        android:textAlignment="center"
-        android:text="@string/app_name" />
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:background="@color/dlrgRed"
+        tools:context=".LoginActivity">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="284dp"
-        android:layout_marginTop="10dp"
-        android:stretchColumns="0, 1">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp">
-
-            <ImageButton
-                android:id="@+id/freibadButton"
-                android:layout_width="160dp"
-                android:layout_height="100dp"
-                android:background="@color/pool"
-                android:padding="2dp"
-                app:srcCompat="@drawable/ic_swimming_pool" />
-
-            <ImageButton
-                android:id="@+id/trainingButton"
-                android:layout_width="160dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@color/pool"
-                android:padding="2dp"
-                app:srcCompat="@drawable/ic_swim_race" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/freibadText"
-                android:layout_width="160dp"
-                android:layout_height="30dp"
-                android:text="@string/freibad"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textFontWeight="450"
-                android:textSize="25sp" />
-
-            <TextView
-                android:id="@+id/trainingText"
-                android:layout_width="160dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="@string/training"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textFontWeight="450"
-                android:textSize="25sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
-
-            <ImageButton
-                android:id="@+id/terminButton"
-                android:layout_width="160dp"
-                android:layout_height="100dp"
-                android:background="@color/pool"
-                app:srcCompat="@drawable/ic_iconmonstr_calendar_4" />
-
-            <ImageButton
-                android:id="@+id/kontaktButton"
-                android:layout_width="160dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@color/pool"
-                android:padding="2dp"
-                app:srcCompat="@drawable/ic_email" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/terminText"
-                android:layout_width="160dp"
-                android:layout_height="30dp"
-                android:text="@string/termin"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textFontWeight="450"
-                android:textSize="25sp" />
-
-            <TextView
-                android:id="@+id/kontaktText"
-                android:layout_width="160dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="@string/kontakt"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textFontWeight="450"
-                android:textSize="25sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:gravity="right|bottom"
-        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:text="@string/logout"
-            android:background="@color/dlrgYellow"
-            android:textSize="20dp"
-            android:padding="10dp"
-            android:textColor="#000000"
-            android:gravity="center"/>
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dlrgYellow"
+            android:textSize="25dp"
+            android:textFontWeight="560"
+            android:textAlignment="center"
+            android:text="@string/app_name" />
 
-        <ImageButton
-            android:id="@+id/logoutButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="@color/dlrgYellow"
-            app:srcCompat="@drawable/ic_logout" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/firstRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/freibadButton"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/pool"
+                    android:padding="2dp"
+                    app:srcCompat="@drawable/ic_swimming_pool" />
+
+                <ImageButton
+                    android:id="@+id/trainingButton"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/pool"
+                    android:padding="2dp"
+                    app:srcCompat="@drawable/ic_swim_race" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/secondRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/firstRow">
+
+                <TextView
+                    android:id="@+id/freibadText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/freibad"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textFontWeight="450"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/trainingText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/training"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textFontWeight="450"
+                    android:textSize="25sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/thirdRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_below="@id/secondRow">
+
+                <ImageButton
+                    android:id="@+id/terminButton"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/pool"
+                    app:srcCompat="@drawable/ic_iconmonstr_calendar_4" />
+
+                <ImageButton
+                    android:id="@+id/kontaktButton"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/pool"
+                    android:padding="2dp"
+                    app:srcCompat="@drawable/ic_email" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fourthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/thirdRow">
+
+                <TextView
+                    android:id="@+id/terminText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/termin"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/kontaktText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/kontakt"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fifthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_below="@id/fourthRow">
+
+                <ImageButton
+                    android:id="@+id/settingsButton"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/pool"
+                    app:srcCompat="@drawable/ic_settings" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sixthRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/fifthRow">
+
+                <TextView
+                    android:id="@+id/settingsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/settings"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:gravity="right|bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="65dp"
+                android:text="@string/logout"
+                android:background="@color/dlrgYellow"
+                android:textSize="20dp"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:gravity="center"/>
+
+            <ImageButton
+                android:id="@+id/logoutButton"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@color/dlrgYellow"
+                app:srcCompat="@drawable/ic_logout" />
+        </LinearLayout>
     </LinearLayout>
-
-
-</LinearLayout>
+</ScrollView>

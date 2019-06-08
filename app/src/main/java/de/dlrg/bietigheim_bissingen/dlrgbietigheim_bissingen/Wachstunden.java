@@ -23,6 +23,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -170,6 +171,7 @@ public class Wachstunden extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Log.w(TAG, "Error writing document", e);
+                                        Toast.makeText(getApplicationContext(), "Fehler beim Hinzufügen!", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                         break;
@@ -207,6 +209,7 @@ public class Wachstunden extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.w(TAG, "Error deleting document", e);
+                            Toast.makeText(getApplicationContext(), "Fehler beim Löschen!", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -221,6 +224,8 @@ public class Wachstunden extends AppCompatActivity {
         return null;
     }
 
+    private long abzeichen = -1;
+
     public void calculateTotalDuration(List<Termine> list) {
         if(list == null) return;
         Long total = 0L;
@@ -228,17 +233,34 @@ public class Wachstunden extends AppCompatActivity {
             total += termine.duration;
         }
         TextView val = findViewById(R.id.wachstundenValue);
-        TextView mon = findViewById(R.id.wachstundenMoney);
-        double hours = Math.round(total / 3600.0 * 2.0) / 2.0;
+        final TextView mon = findViewById(R.id.wachstundenMoney);
+        final double hours = Math.round(total / 3600.0 * 2.0) / 2.0;
 
         val.setText(("Insgesamt " + hours + " Stunden"));
 
-        if(hours < 30) {
-            mon.setText(("Aktuelle Vergütung: " + hours * 6.5 + "0€"));
-        } else if(hours < 50) {
-            mon.setText(("Aktuelle Vergütung: " + hours * 7.5 + "0€"));
-        } else {
-            mon.setText(("Aktuelle Vergütung: " + hours * 8 + "0€"));
-        }
+        DocumentReference documentReference = db.collection("Nutzer").document(user.getUid());
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                abzeichen = (long) documentSnapshot.get("abzeichen");
+                if(abzeichen == 0) {
+                    if(hours >= 5 && hours < 30) {
+                        mon.setText(("Aktuelle Vergütung: " + hours * 3.5 + "0€"));
+                    } else if(hours < 50) {
+                        mon.setText(("Aktuelle Vergütung: " + hours * 4.5 + "0€"));
+                    } else {
+                        mon.setText(("Aktuelle Vergütung: " + hours * 5.5 + "0€"));
+                    }
+                } else if(abzeichen == 1 || abzeichen == 2) {
+                    if(hours >= 5 && hours < 30) {
+                        mon.setText(("Aktuelle Vergütung: " + hours * 6.5 + "0€"));
+                    } else if(hours < 50) {
+                        mon.setText(("Aktuelle Vergütung: " + hours * 7.5 + "0€"));
+                    } else {
+                        mon.setText(("Aktuelle Vergütung: " + hours * 8 + "0€"));
+                    }
+                }
+            }
+        });
     }
 }

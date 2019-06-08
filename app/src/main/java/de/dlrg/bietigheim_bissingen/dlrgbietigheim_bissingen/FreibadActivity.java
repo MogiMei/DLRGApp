@@ -55,7 +55,7 @@ public class FreibadActivity extends AppCompatActivity {
     private CheckBox cb;
     private Boolean cbManual = false;
 
-    private Boolean showTime = true;
+    private Boolean showTime = false;
 
     private TextView freibadZeit;
 
