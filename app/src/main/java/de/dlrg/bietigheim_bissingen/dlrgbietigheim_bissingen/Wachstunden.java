@@ -228,6 +228,17 @@ public class Wachstunden extends AppCompatActivity {
             total += termine.duration;
         }
         TextView val = findViewById(R.id.wachstundenValue);
-        val.setText(("Insgesamt " + Math.round(total / 3600.0 * 2.0) / 2.0 + " Stunden"));
+        TextView mon = findViewById(R.id.wachstundenMoney);
+        double hours = Math.round(total / 3600.0 * 2.0) / 2.0;
+
+        val.setText(("Insgesamt " + hours + " Stunden"));
+
+        if(hours < 30) {
+            mon.setText(("Aktuelle Vergütung: " + hours * 6.5 + "0€"));
+        } else if(hours < 50) {
+            mon.setText(("Aktuelle Vergütung: " + hours * 7.5 + "0€"));
+        } else {
+            mon.setText(("Aktuelle Vergütung: " + hours * 8 + "0€"));
+        }
     }
 }

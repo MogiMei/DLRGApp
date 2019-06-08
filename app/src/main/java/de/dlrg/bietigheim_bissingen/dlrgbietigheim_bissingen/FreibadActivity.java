@@ -1,5 +1,6 @@
 package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,11 +16,16 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,8 +37,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -51,6 +55,8 @@ public class FreibadActivity extends AppCompatActivity {
     private CheckBox cb;
     private Boolean cbManual = false;
 
+    private Boolean showTime = true;
+
     private TextView freibadZeit;
 
     private Handler handler;
@@ -61,20 +67,22 @@ public class FreibadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_freibad);
 
+        Intent intent = getIntent();
+        if(intent != null) {
+            String x = intent.getStringExtra("whenAreYouComing");
+            if(x != null) {
+                if (x.equals("Notification")) {
+                    showTime = true;
+                }
+            }
+        }
+
         freibadActivity = this;
 
         db = FirebaseFirestore.getInstance();
         nutzer = db.collection("Nutzer");
         wachgangerValue = findViewById(R.id.wachgangerValue);
         freibadZeit = findViewById(R.id.freibadZeit);
-
-        ImageButton ib = (ImageButton) findViewById(R.id.backButton);
-        ib.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMainMenu();
-            }
-        });
 
         ImageButton wachplan = (ImageButton) findViewById(R.id.wachdienst);
         wachplan.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +159,32 @@ public class FreibadActivity extends AppCompatActivity {
         });
 
         setImageButtonEnabled(this, false, (ImageButton) findViewById(R.id.putzplan), R.drawable.ic_cleaning);
+
+        if(showTime) {
+            showTime = false;
+            final Dialog d = new Dialog(FreibadActivity.this);
+            d.setTitle("Ich komme in ... Minuten");
+            d.setContentView(R.layout.dialog_number);
+            Button b1 = (Button) d.findViewById(R.id.button1);
+            Button b2 = (Button) d.findViewById(R.id.button2);
+            final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+            np.setMaxValue(60);
+            np.setMinValue(0);
+            np.setWrapSelectorWheel(false);
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    d.dismiss();
+                }
+            });
+            b2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    d.dismiss();
+                }
+            });
+            d.show();
+        }
 
         handler = new Handler();
         handler.post(runnableCode);
@@ -250,11 +284,6 @@ public class FreibadActivity extends AppCompatActivity {
         handler.post(runnableCode);
     }
 
-    public void openMainMenu() {
-        handler.removeCallbacksAndMessages(null);
-        finish();
-    }
-
     public void besucherUpdateDialog(final float x, final float y) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -333,7 +362,8 @@ public class FreibadActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.networkResponse.allHeaders.toString());
+                Log.e(TAG, error.getMessage());
+                Toast.makeText(getApplicationContext(), "Die Nachricht konnte nicht gesendet werden!", Toast.LENGTH_LONG).show();
             }
         });
         queue.add(stringRequest);

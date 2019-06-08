@@ -27,4 +27,10 @@
     <string name="wachstunden">Wachstunden</string>
     <string name="stunden_button">WACHSTUNDEN HINZUFÜGEN</string>
     <string name="wachstundenValue">Insgesamt 0 Stunden</string>
+    <string name="zeit">Uhr</string>
+    <string name="add">Plus</string>
+    <string name="clean">Besen</string>
+    <string name="fernglas">Fernglas</string>
+    <string name="wachstundenMoney">Aktuelle Vergütung: 0€</string>
+    <string name="timeNeeded">Ich bin in ... Minuten da!</string>
 </resources>

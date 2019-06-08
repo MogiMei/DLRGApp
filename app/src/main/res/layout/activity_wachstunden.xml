@@ -21,15 +21,23 @@
         android:layout_below="@id/wachstundenText"
         android:textColor="@color/dlrgYellow"
         android:textSize="20dp"
-        android:textFontWeight="560"
         android:text="@string/wachstundenValue" />
+
+    <TextView
+        android:id="@+id/wachstundenMoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wachstundenValue"
+        android:textColor="@color/dlrgYellow"
+        android:textSize="20dp"
+        android:text="@string/wachstundenMoney" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/wachstundenListe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/wachstundenValue"
+        android:layout_below="@+id/wachstundenMoney"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="85dp"/>
 

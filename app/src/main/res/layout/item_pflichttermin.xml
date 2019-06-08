@@ -17,6 +17,7 @@
         android:textColor="#000"
         android:gravity="center"
         android:layout_weight="1"
+        android:layout_marginLeft="10sp"
         android:text="X. Dezember von 09:45 Uhr bis 18:00 Uhr"/>
 
     <ImageButton
