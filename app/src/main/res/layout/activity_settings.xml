@@ -80,4 +80,22 @@
         android:popupElevation="3dp"
         android:stateListAnimator="@drawable/spinner_sla" />
 
+    <TextView
+        android:id="@+id/rollenText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner2"
+        android:textColor="@color/dlrgYellow"
+        android:textSize="20dp"
+        android:text="@string/rolle" />
+
+    <TextView
+        android:id="@+id/rollenValue"
+        style="?android:attr/spinnerDropDownItemStyle"
+        android:layout_width="300dp"
+        android:layout_height="?attr/dropdownListPreferredItemHeight"
+        android:layout_below="@+id/rollenText"
+        android:background="@drawable/spinner_clear_bg"
+        android:text="@string/neuling" />
+
 </RelativeLayout>

@@ -44,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -331,24 +332,49 @@ public class FreibadActivity extends AppCompatActivity {
     }
 
     public void wachgangerAnfordern() {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        sendRequest();
-                        break;
+        Calendar calendar = Calendar.getInstance();
+        final int day = calendar.get(Calendar.DAY_OF_WEEK);
+        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final Context context = this;
+        if (user != null) {
+            DocumentReference documentReference = db.collection("Nutzer").document(user.getUid());
+            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.get("rolle") != null) {
+                        int rolle = Integer.parseInt(String.valueOf(documentSnapshot.get("rolle")));
+                        if (rolle <= 1 && (day == Calendar.SATURDAY || day == Calendar.SUNDAY)) {
+                            Toast.makeText(getApplicationContext(), "Am Wochenende können nur Wachleiter Verstärkung anfordern!", Toast.LENGTH_LONG).show();
+                        } else if((hour < 6 || hour > 21) && rolle != 3) {
+                            Toast.makeText(getApplicationContext(), "Es kann nur zwischen 6 und 21 Uhr Verstärkung angefordert werden!", Toast.LENGTH_LONG).show();
+                        } else {
+                            if((hour < 6 || hour > 21) && rolle == 3) {
+                                Toast.makeText(getApplicationContext(), "Es kann normalerweise nur zwischen 6 und 21 Uhr Verstärkung angefordert werden!", Toast.LENGTH_LONG).show();
+                            }
+                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case DialogInterface.BUTTON_POSITIVE:
+                                            sendRequest();
+                                            break;
 
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        break;
+                                        case DialogInterface.BUTTON_NEGATIVE:
+                                            break;
+                                    }
+                                }
+                            };
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setMessage("Bist du sicher, dass du alle Wachgänger alamieren möchtest?").setPositiveButton("Ja", dialogClickListener)
+                                    .setNegativeButton("Abbrechen", dialogClickListener).show();
+                        }
+
+                    }
                 }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Bist du sicher, dass du alle Wachgänger alamieren möchtest?").setPositiveButton("Ja", dialogClickListener)
-                .setNegativeButton("Abbrechen", dialogClickListener).show();
-
+            });
+        }
     }
 
     public void sendRequest() {

@@ -38,6 +38,8 @@
     <string name="example_name">Max Mustermann</string>
     <string name="abzeichen">Abzeichen:</string>
     <string name="sanitätsaubildung">Sanitätsausbildung:</string>
+    <string name="rolle">Rolle:</string>
+    <string name="neuling">Neuling</string>
     <string-array name="abzeichen_array">
         <item>DRSA Bronze</item>
         <item>DRSA Silber</item>
@@ -54,5 +56,11 @@
         <item>Notfallsanitäter/-in</item>
         <item>Krankenschwester/-pfleger</item>
         <item>Arzt/Ärztin</item>
+    </string-array>
+    <string-array name="rolle_array">
+        <item>Neuling</item>
+        <item>Wachgänger/-in</item>
+        <item>Wachleiter/-in</item>
+        <item>Admin</item>
     </string-array>
 </resources>

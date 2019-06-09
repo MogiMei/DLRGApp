@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -99,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                             return;
                         }
 
-                        // Get new Instance ID token
                         String token = task.getResult().getToken();
                         sendTokenToServer(token);
                     }
@@ -116,10 +117,39 @@ public class LoginActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                final FirebaseFirestore db = FirebaseFirestore.getInstance();
                 if (user != null) {
                     Toast.makeText(this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                    DocumentReference documentReference = db.collection("Nutzer").document(user.getUid());
+                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if(documentSnapshot.get("name") == null) {
+                                Map<String, Object> initMap = new HashMap<>();
+                                initMap.put("name", (user.getDisplayName() != null ? user.getDisplayName() : "Max Mustermann"));
+                                initMap.put("abzeichen", 0);
+                                initMap.put("sanitätsausbildung", 0);
+                                initMap.put("rolle", 0);
+                                initMap.put("freibad", false);
+                                db.collection("Nutzer").document(user.getUid())
+                                        .update(initMap)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("SETTINGS", "DocumentSnapshot successfully written!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w("SETTINGS", "Error writing document", e);
+                                                Toast.makeText(getApplicationContext(), "Fehler beim Initialsieren der Datenbank!", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                            }
+                        }
+                    });
                 }
             } else {
                 if(resultCode == 0) {

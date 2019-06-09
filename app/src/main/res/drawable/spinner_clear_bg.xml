@@ -13,12 +13,6 @@
                         <solid android:color="#f0f0f0" />
                     </shape>
                 </item>
-                <item
-                    android:right="16dp">
-                    <bitmap
-                        android:gravity="right|center_vertical"
-                        android:src="@drawable/ic_arrow_down" />
-                </item>
             </layer-list>
         </inset>
     </item>

@@ -3,12 +3,15 @@ package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,6 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.sanitätsausbildung_array, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
+        final TextView textView = (TextView) findViewById(R.id.rollenValue);
         DocumentReference documentReference = db.collection("Nutzer").document(user.getUid());
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -60,6 +64,9 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 if(documentSnapshot.get("name") != null) {
                     editText.setText(String.valueOf(documentSnapshot.get("name")));
+                }
+                if(documentSnapshot.get("rolle") != null) {
+                    textView.setText(getResources().getStringArray(R.array.rolle_array)[Integer.parseInt(String.valueOf(documentSnapshot.get("rolle")))]);
                 }
             }
         });
@@ -125,6 +132,39 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Map<String, Object> nameMap = new HashMap<>();
+                nameMap.put("name", s.toString());
+                db.collection("Nutzer").document(user.getUid())
+                        .update(nameMap)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("SETTINGS", "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("SETTINGS", "Error writing document", e);
+                                Toast.makeText(getApplicationContext(), "Fehler beim Aktualisieren des Abzeichens", Toast.LENGTH_LONG).show();
+                            }
+                        });
             }
         });
     }
