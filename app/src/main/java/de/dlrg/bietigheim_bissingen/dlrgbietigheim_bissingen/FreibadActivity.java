@@ -175,6 +175,32 @@ public class FreibadActivity extends AppCompatActivity {
             b1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DocumentReference documentReference = db.collection("Nutzer").document(user.getUid());
+                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                         @Override
+                         public void onSuccess(DocumentSnapshot documentSnapshot) {
+                             if (documentSnapshot.get("name") != null) {
+                                 Map<String, Object> map = new HashMap<>();
+                                 map.put("name", String.valueOf(documentSnapshot.get("name")));
+                                 map.put("timeNeeded", np.getValue());
+                                 map.put("timeSeen", Timestamp.now());
+                                 db.collection("Freibad").document("main").collection("Nachforderung")
+                                         .document("main").collection("PersonenKommend").document(String.valueOf(documentSnapshot.get("name")))
+                                         .set(map).addOnFailureListener(new OnFailureListener() {
+                                     @Override
+                                     public void onFailure(@NonNull Exception e) {
+                                         Toast.makeText(getApplicationContext(), "Dein Kommen konnte leider nicht weitergegeben werden!", Toast.LENGTH_LONG).show();
+                                     }
+                                 });
+                             }
+                         }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Dein Kommen konnte leider nicht weitergegeben werden!", Toast.LENGTH_LONG).show();
+                        }
+                    });
                     d.dismiss();
                 }
             });
@@ -352,38 +378,88 @@ public class FreibadActivity extends AppCompatActivity {
                             if((hour < 6 || hour > 21) && rolle == 3) {
                                 Toast.makeText(getApplicationContext(), "Es kann normalerweise nur zwischen 6 und 21 Uhr Verstärkung angefordert werden!", Toast.LENGTH_LONG).show();
                             }
-                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                           final Dialog d = new Dialog(FreibadActivity.this);
+                            d.setTitle("Es werden ... Wachgänger benötigt!");
+                            d.setContentView(R.layout.dialog_wachganger_number);
+                            Button b1 = (Button) d.findViewById(R.id.button1);
+                            Button b2 = (Button) d.findViewById(R.id.button2);
+                            final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+                            np.setMaxValue(20);
+                            np.setMinValue(0);
+                            np.setWrapSelectorWheel(false);
+                            final int[] numberNeeded = {0};
+                            b1.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    switch (which) {
-                                        case DialogInterface.BUTTON_POSITIVE:
-                                            sendRequest();
-                                            break;
+                                public void onClick(View v) {
+                                    numberNeeded[0] = np.getValue();
+                                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which) {
+                                                case DialogInterface.BUTTON_POSITIVE:
+                                                    sendRequest(numberNeeded[0]);
+                                                    break;
 
-                                        case DialogInterface.BUTTON_NEGATIVE:
-                                            break;
-                                    }
+                                                case DialogInterface.BUTTON_NEGATIVE:
+                                                    break;
+                                            }
+                                        }
+                                    };
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                    builder.setMessage("Bist du sicher, dass du alle Wachgänger alamieren möchtest?").setPositiveButton("Ja", dialogClickListener)
+                                            .setNegativeButton("Abbrechen", dialogClickListener);
+                                    builder.show();
+                                    d.dismiss();
                                 }
-                            };
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setMessage("Bist du sicher, dass du alle Wachgänger alamieren möchtest?").setPositiveButton("Ja", dialogClickListener)
-                                    .setNegativeButton("Abbrechen", dialogClickListener).show();
+                            });
+                            b2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    d.dismiss();
+                                }
+                            });
+                            d.show();
                         }
-
                     }
                 }
             });
         }
     }
 
-    public void sendRequest() {
+    public void sendRequest(final int numberNeeded) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://us-central1-dlrgbibi.cloudfunctions.net/leuteAnfordern";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        DocumentReference documentReference = db.collection("Nutzer").document(user.getUid());
+                        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.get("name") != null) {
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("anzahl", numberNeeded);
+                                    map.put("name", String.valueOf(documentSnapshot.get("name")));
+                                    map.put("zeitpunkt", Timestamp.now());
+                                    db.collection("Freibad").document("main").collection("Nachforderung").document("main")
+                                        .update(map)
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(), "Die Datenbank konnte nicht aktualisiert werden! Die Benachrichtigung wurde aber verschickt!", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Die Datenbank konnte nicht aktualisiert werden! Die Benachrichtigung wurde aber verschickt!", Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
                 }, new Response.ErrorListener() {
             @Override
