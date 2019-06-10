@@ -103,6 +103,15 @@ public class FreibadActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton liste = (ImageButton) findViewById(R.id.listButton);
+        liste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(freibadActivity, Anwesenheitsliste.class);
+                startActivity(intent);
+            }
+        });
+
         ImageButton nachfordernButton = findViewById(R.id.nachfordernButton);
         nachfordernButton.setOnClickListener(new View.OnClickListener() {
             @Override

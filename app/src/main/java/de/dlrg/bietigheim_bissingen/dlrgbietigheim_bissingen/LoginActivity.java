@@ -37,6 +37,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
+    private final String TAG = "LoginactivityTAG";
     public static LoginActivity MainActivity;
 
     @Override
@@ -106,8 +107,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    private final String TAG = "LoginactivityTAG";
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -190,7 +189,8 @@ public class LoginActivity extends AppCompatActivity {
                                     .build(), RC_SIGN_IN);
                         }
                     });
-                    builder.setMessage("Bitte melde dich an, um die App nutzen zu können!").setPositiveButton("Ok", dialogClickListener)
+                    builder.setMessage("Bitte melde dich an, um die App nutzen zu können!")
+                            .setPositiveButton("Ok", dialogClickListener)
                             .setNegativeButton("Verlassen", dialogClickListenerNo).show();
                 }
             }
@@ -216,7 +216,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void delete() {
-        // [START auth_fui_delete]
         AuthUI.getInstance()
                 .delete(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

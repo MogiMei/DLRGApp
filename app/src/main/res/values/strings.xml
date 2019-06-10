@@ -41,6 +41,9 @@
     <string name="rolle">Rolle:</string>
     <string name="neuling">Neuling</string>
     <string name="personsNeeded">Es werden ... Wachgänger benötigt!</string>
+    <string name="listWachgänger">Anwesenheitsliste</string>
+    <string name="anwesenheitsliste">Anwesenheitsliste</string>
+    <string name="wachgängerValue">Insgesamt 0 Wachgänger</string>
     <string-array name="abzeichen_array">
         <item>DRSA Bronze</item>
         <item>DRSA Silber</item>
