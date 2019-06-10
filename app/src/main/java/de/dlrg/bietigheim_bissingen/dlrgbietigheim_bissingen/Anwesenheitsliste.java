@@ -2,6 +2,10 @@ package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -17,16 +21,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Anwesenheitsliste extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
     private List<DocumentSnapshot> documentSnapshots = new LinkedList<>();
     private List<Person> list = new LinkedList<>();
 
     private FirebaseFirestore db;
     private FirebaseUser user;
 
+    public static Anwesenheitsliste anwesenheitsliste;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anwesenheitsliste);
+
+        anwesenheitsliste = this;
 
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -38,11 +50,29 @@ public class Anwesenheitsliste extends AppCompatActivity {
                 documentSnapshots = queryDocumentSnapshots.getDocuments();
 
                 for(DocumentSnapshot documentSnapshot:documentSnapshots) {
-                    Person person = new Person(String.valueOf(documentSnapshot.get("name")), Integer.parseInt(String.valueOf(documentSnapshot.get("abzeichen"))), Integer.parseInt(String.valueOf((documentSnapshot.get("sanitätsausbildung")))), Integer.parseInt(String.valueOf(documentSnapshot.get("rolle"))));
-                    list.add(person);
+                    if(Boolean.parseBoolean(String.valueOf(documentSnapshot.get("freibad")))) {
+                        Person person = new Person(String.valueOf(documentSnapshot.get("name")), Integer.parseInt(String.valueOf(documentSnapshot.get("abzeichen"))), Integer.parseInt(String.valueOf((documentSnapshot.get("sanitätsausbildung")))), Integer.parseInt(String.valueOf(documentSnapshot.get("rolle"))));
+                        list.add(person);
+                    }
                 }
                 Collections.sort(list);
+                TextView textView = findViewById(R.id.wachgängerValue);
+                textView.setText(("Insgesamt " + list.size() + " Wachgänger"));
+                mAdapter.notifyDataSetChanged();
             }
         });
+
+        recyclerView = (RecyclerView) findViewById(R.id.wachgangerListe);
+
+        mAdapter = new AnwesenheitslisteAdapter(list);
+        recyclerView.setAdapter(mAdapter);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        SwipeController swipeController = new SwipeController();
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 }

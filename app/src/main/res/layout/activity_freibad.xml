@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/dlrgRed">
@@ -48,9 +49,9 @@
             android:layout_below="@+id/wachgängerText"
             android:layout_alignStart="@+id/textView"
             android:layout_alignLeft="@+id/textView"
-            android:text="0"
+            tools:text="0"
             android:textColor="#FFF"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/besucherText"
@@ -255,6 +256,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:layout_below="@id/fourthRow">
 
                 <ImageButton
@@ -277,6 +279,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:layout_below="@id/fifthRow">
 
                 <TextView

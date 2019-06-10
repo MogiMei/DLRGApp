@@ -1,23 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
+    android:padding="10dp"
     android:layout_marginBottom="10dp"
     android:background="@drawable/black_border">
 
     <TextView
-        android:id="@+id/wachstunden_text"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:id="@+id/wachganger_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="18dp"
         android:textColor="#000"
-        android:gravity="center"
-        android:layout_weight="1"
+        android:textAlignment="center"
+        tools:text="Max Mustermann"/>
+
+    <LinearLayout
+        android:id="@+id/sub_item"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:padding="10dp"
-        android:text="Max Mustermann"/>
+        android:background="@drawable/black_border_red">
+
+        <TextView
+            android:id="@+id/abzeichenText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            tools:text="DRSA Silber"/>
+
+        <TextView
+            android:id="@+id/sanitätsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            tools:text="San A"/>
+
+    </LinearLayout>
 
 </LinearLayout>

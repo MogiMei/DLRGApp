@@ -5,7 +5,7 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/wachstundenText"
+        android:id="@+id/wachgängerText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/dlrgYellow"
@@ -18,13 +18,13 @@
         android:id="@+id/wachgängerValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/wachstundenText"
+        android:layout_below="@id/wachgängerText"
         android:textColor="@color/dlrgYellow"
         android:textSize="20dp"
         android:text="@string/wachgängerValue" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/wachstundenListe"
+        android:id="@+id/wachgangerListe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/wachgängerValue"

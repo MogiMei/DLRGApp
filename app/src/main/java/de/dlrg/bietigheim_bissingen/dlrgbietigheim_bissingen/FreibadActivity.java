@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,6 +85,21 @@ public class FreibadActivity extends AppCompatActivity {
         nutzer = db.collection("Nutzer");
         wachgangerValue = findViewById(R.id.wachgangerValue);
         freibadZeit = findViewById(R.id.freibadZeit);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        nutzer.document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.get("rolle") != null) {
+                    if(Integer.parseInt(String.valueOf(documentSnapshot.get("rolle"))) >= 2) {
+                        LinearLayout linearLayout = findViewById(R.id.fifthRow);
+                        LinearLayout linearLayout1 = findViewById(R.id.sixthRow);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        linearLayout1.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
 
         ImageButton wachplan = (ImageButton) findViewById(R.id.wachdienst);
         wachplan.setOnClickListener(new View.OnClickListener() {
