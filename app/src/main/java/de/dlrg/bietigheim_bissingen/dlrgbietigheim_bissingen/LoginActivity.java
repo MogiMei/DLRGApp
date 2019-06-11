@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -60,6 +61,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        TextView textView = (TextView) findViewById(R.id.logout);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.MainActivity.signOut();
+                LoginActivity.MainActivity.signIn();
+            }
+        });
+
         ImageButton freibadButton = (ImageButton) findViewById(R.id.freibadButton);
         freibadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +78,21 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ImageButton trainingButton = (ImageButton) findViewById(R.id.trainingButton);
+        FreibadActivity.setImageButtonEnabled(this, false, trainingButton, R.drawable.ic_swim_race);
+
+        ImageButton calendarButton = (ImageButton) findViewById(R.id.terminButton);
+        calendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity, CalendarActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton contactButton = (ImageButton) findViewById(R.id.kontaktButton);
+        FreibadActivity.setImageButtonEnabled(this, false, contactButton, R.drawable.ic_email);
 
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
