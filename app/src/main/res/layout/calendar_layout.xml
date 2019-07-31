@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/calendar_header"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/monday"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="#000"
+            android:textAlignment="center"
+            tools:text="MO"/>
+
+        <!--
+        <TextView
+            android:id="@+id/tuesday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".1666"
+            android:textColor="#000"
+            android:textAlignment="center"
+            tools:text="DI"/>
+
+        <TextView
+            android:id="@+id/wednesday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".1666"
+            android:textColor="#000"
+            android:textAlignment="center"
+            tools:text="MI"/>
+
+        <TextView
+            android:id="@+id/thursday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".1666"
+            android:textColor="#222222"
+            android:textAlignment="center"
+            tools:text="DO"/>
+
+        <TextView
+            android:id="@+id/friday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".1666"
+            android:textColor="#000"
+            android:textAlignment="center"
+            tools:text="FR"/>
+
+        <TextView
+            android:id="@+id/saturday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".1666"
+            android:textColor="#000"
+            android:textAlignment="center"
+            tools:text="SA"/>
+
+        <TextView
+            android:id="@+id/sunday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".1666"
+            android:textColor="#000"
+            android:textAlignment="center"
+            tools:text="SO"/>-->
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/calendar_prev_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toLeftOf="@+id/date_display"
+            android:layout_toStartOf="@+id/date_display"
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_arrow_left"  />
+
+        <TextView
+            android:id="@+id/date_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            tools:text="Juni 2019"/>
+
+        <ImageView
+            android:id="@+id/calendar_next_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_toEndOf="@id/date_display"
+            android:layout_toRightOf="@id/date_display"
+            app:srcCompat="@drawable/ic_arrow_right"/>
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/calendar_grid"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:numColumns="7"/>
+</LinearLayout>

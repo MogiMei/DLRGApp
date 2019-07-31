@@ -5,15 +5,8 @@
     android:background="@color/dlrgRed"
     android:padding="16dp">
 
-    <LinearLayout
+    <de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen.CustomCalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@drawable/black_border_calendar">
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:firstDayOfWeek="2" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 </RelativeLayout>

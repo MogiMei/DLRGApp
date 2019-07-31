@@ -2,13 +2,16 @@ package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MotionEvent;
 import android.view.View;
 
-import static android.support.v7.widget.helper.ItemTouchHelper.*;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE;
+import static androidx.recyclerview.widget.ItemTouchHelper.LEFT;
+import static androidx.recyclerview.widget.ItemTouchHelper.RIGHT;
 
 enum ButtonsState {
     GONE,

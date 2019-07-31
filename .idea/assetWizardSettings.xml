@@ -64,11 +64,18 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="scalingPercent" value="115" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="foregroundImage" value="D:\Users\Mogi\Pictures\DLRG\Logo\DLRG_LOGO.jpg" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -118,11 +125,6 @@
                             </entry>
                           </map>
                         </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
-                          </map>
-                        </option>
                       </PersistentState>
                     </value>
                   </entry>
@@ -143,9 +145,9 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="height" value="100" />
-                            <entry key="outputName" value="ic_list" />
+                            <entry key="outputName" value="ic_arrow_left" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Schach\Downloads\iconmonstr-task-1.svg" />
+                            <entry key="sourceFile" value="D:\Users\Mogi\Downloads\iconmonstr-arrow-64.svg" />
                             <entry key="width" value="100" />
                           </map>
                         </option>

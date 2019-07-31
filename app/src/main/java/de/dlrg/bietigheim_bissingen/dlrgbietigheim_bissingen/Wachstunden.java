@@ -3,12 +3,8 @@ package de.dlrg.bietigheim_bissingen.dlrgbietigheim_bissingen;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +12,12 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,7 +29,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
@@ -49,6 +56,9 @@ public class Wachstunden extends AppCompatActivity {
     private List<DocumentSnapshot> documentSnapshots = new LinkedList<>();
     private List<Termine> list = new LinkedList<>();
 
+    private Gson gson = new Gson();
+    private  SharedPreferences.Editor editor;
+
     private WachstundenTimePicker timePickerDialogAnfang;
     private WachstundenTimePicker timePickerDialogEnde;
     private WachstundenDatePicker datePickerDialog;
@@ -69,11 +79,32 @@ public class Wachstunden extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        SharedPreferences prefs = getSharedPreferences(CONFIG.PREFS_NAME, MODE_PRIVATE);
+        editor = prefs.edit();
+
+        String json = prefs.getString(CONFIG.WACHSTUNDEN_NAME, "");
+        Type type = new TypeToken<List<Termine>>(){}.getType();
+        if(!json.equals("")) {
+            list = gson.fromJson(json, type);
+            Collections.sort(list);
+            calculateTotalDuration(list);
+        }
+
+        recyclerView = (RecyclerView) findViewById(R.id.wachstundenListe);
+
+        mAdapter = new WachstundenAdapter(list);
+        recyclerView.setAdapter(mAdapter);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
         CollectionReference collectionReference = db.collection("Nutzer").document(user.getUid()).collection("Wachstunden");
         collectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 documentSnapshots = queryDocumentSnapshots.getDocuments();
+
+                list = new LinkedList<>();
 
                 for(DocumentSnapshot documentSnapshot:documentSnapshots) {
                     Timestamp anfang = (Timestamp) documentSnapshot.get("anfangsZeit");
@@ -83,6 +114,10 @@ public class Wachstunden extends AppCompatActivity {
                 Collections.sort(list);
                 calculateTotalDuration(list);
                 mAdapter.notifyDataSetChanged();
+
+                String listJson = gson.toJson(list);
+                editor.putString(CONFIG.WACHSTUNDEN_NAME, listJson);
+                editor.apply();
             }
         });
 
@@ -131,14 +166,6 @@ public class Wachstunden extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-
-        recyclerView = (RecyclerView) findViewById(R.id.wachstundenListe);
-
-        mAdapter = new WachstundenAdapter(list);
-        recyclerView.setAdapter(mAdapter);
-
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
     }
 
     public void addWachstunde(final Calendar calAnfang, final Calendar calEnde) {
@@ -245,17 +272,17 @@ public class Wachstunden extends AppCompatActivity {
                 abzeichen = (long) documentSnapshot.get("abzeichen");
                 if(abzeichen == 0) {
                     if(hours >= 5 && hours < 30) {
-                        mon.setText(("Aktuelle Vergütung: " + hours * 3.5 + "0€"));
+                        mon.setText(("Aktuelle Vergütung: " + new BigDecimal(hours * 3.5).setScale(2, RoundingMode.HALF_UP)  + "€"));
                     } else if(hours < 50) {
-                        mon.setText(("Aktuelle Vergütung: " + hours * 4.5 + "0€"));
+                        mon.setText(("Aktuelle Vergütung: " + new BigDecimal(hours * 4.5).setScale(2, RoundingMode.HALF_UP) + "€"));
                     } else {
-                        mon.setText(("Aktuelle Vergütung: " + hours * 5.5 + "0€"));
+                        mon.setText(("Aktuelle Vergütung: " + new BigDecimal(hours * 5.5).setScale(2, RoundingMode.HALF_UP) + "€"));
                     }
                 } else if(abzeichen == 1 || abzeichen == 2) {
                     if(hours >= 5 && hours < 30) {
-                        mon.setText(("Aktuelle Vergütung: " + hours * 6.5 + "0€"));
+                        mon.setText(("Aktuelle Vergütung: " + new BigDecimal(hours * 6.5).setScale(2, RoundingMode.HALF_UP)  + "€"));
                     } else if(hours < 50) {
-                        mon.setText(("Aktuelle Vergütung: " + hours * 7.5 + "0€"));
+                        mon.setText(("Aktuelle Vergütung: " + new BigDecimal(hours * 7.5).setScale(2, RoundingMode.HALF_UP) + "€"));
                     } else {
                         mon.setText(("Aktuelle Vergütung: " + hours * 8 + "0€"));
                     }
